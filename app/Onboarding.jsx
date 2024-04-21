@@ -6,12 +6,25 @@ import { useRouter } from 'expo-router';
 
 
 const Card = ({ onPress, selected, onRadioClick, criteria, radioButtonContainerStyle }) => {
+  const getImageSource = () => {
+    if (criteria === "1. Available Rides") {
+      return require('../assets/map.png'); // Use map icon for Available Rides
+    }
+    else if (criteria === "3. Price Details") {
+      return require('../assets/person.png'); // Use map icon for Available Rides
+    }
+    else if (criteria === "2. Driver") {
+      return require('../assets/car.png'); // Use map icon for Available Rides
+    }
+    return require('../assets/dollar-sign.png'); // Default to dollar sign for other cards
+  };
+
   return (
     <TouchableOpacity onPress={onPress} style={[styles.card, selected && styles.highlightedCard]}>
       <View style={styles.content}>
         <View style={styles.iconBox}>
           <Image
-            source={require('../assets/dollar-sign.png')}
+            source={getImageSource()} // Dynamically setting the source based on criteria
             style={styles.icon}
           />
         </View>
@@ -25,6 +38,7 @@ const Card = ({ onPress, selected, onRadioClick, criteria, radioButtonContainerS
     </TouchableOpacity>
   );
 };
+
 
 const OnboardingScreen = () => {
   const router = useRouter();
