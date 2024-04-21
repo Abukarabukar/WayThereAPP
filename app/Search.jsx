@@ -1,6 +1,36 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
+import BottomTabNavigator from './BottomTabNavigator';
+
+const houseIcon = require('../assets/house.png');
+const roadIcon = require('../assets/road.png');
+const plusIcon = require('../assets/plus.png');
+const chatIcon = require('../assets/chat.png');
+const chat2Icon = require('../assets/chat2.png');
+
+const NavigatorBar = () => {
+  // Add navigation logic here
+  return (
+    <View style={styles.navigatorBar}>
+      <TouchableOpacity onPress={() => {/* Navigate to screen 1 */}} style={styles.navItem}>
+        <Image source={houseIcon} style={styles.navIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => {/* Navigate to screen 2 */}} style={styles.navItem}>
+        <Image source={roadIcon} style={styles.navIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => {/* Navigate to screen 3 */}} style={styles.navItem}>
+        <Image source={plusIcon} style={styles.navIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => {/* Navigate to screen 4 */}} style={styles.navItem}>
+        <Image source={chatIcon} style={styles.navIcon} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => {/* Navigate to screen 5 */}} style={styles.navItem}>
+        <Image source={chat2Icon} style={styles.navIcon} />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const Card = ({ onPress, selected, criteria }) => {
   const getImageSource = () => {
@@ -61,7 +91,7 @@ const Search = () => {
       </View>
       <Text style={styles.questionText}>Available Rides</Text>
       <View style={styles.cardsContainer}>
-      {["1. Share ride", "2. Pricing details", "3. Route Visualization", "4. Driver-assenger chat", "5. Specific route search", "6. Driver information", "7. Payment details", "8. Driver's location"].map((criteria, index) => (
+        {["1. Share ride", "2. Pricing details", "3. Route Visualization", "4. Driver-assenger chat", "5. Specific route search", "6. Driver information", "7. Payment details", "8. Driver's location"].map((criteria, index) => (
           <Card
             key={index}
             onPress={() => handleCardClick(index + 1)}
@@ -70,6 +100,7 @@ const Search = () => {
           />
         ))}
       </View>
+      <NavigatorBar />
     </View>
   );
 };
@@ -82,7 +113,21 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: -30, // Decreased paddingTop to move everything up
+  },
+  navigatorBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    paddingVertical: 20, // Adjust the vertical padding to change the size
+    marginTop: 30, // Adjust the margin top to change the distance from the top
+  },
+  navItem: {
+    paddingHorizontal: 20,
+  },
+  navIcon: {
+    width: 30,
+    height: 30,
   },
   searchBox: {
     flexDirection: 'row',
@@ -114,7 +159,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 300,
-    height: 60,
+    height: 50,
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#ddd',
