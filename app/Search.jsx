@@ -51,11 +51,13 @@ const Search = () => {
   return (
     <View style={styles.container}>
       <View style={styles.searchBox}>
+        <Image source={require('../assets/search.png')} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search"
           onChangeText={(text) => console.log(text)} // You can add logic here to handle input
         />
+        <Image source={require('../assets/options.png')} style={styles.optionsIcon} />
       </View>
       <Text style={styles.questionText}>Available Rides</Text>
       <View style={styles.cardsContainer}>
@@ -83,17 +85,27 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   searchBox: {
-    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
-  },
-  searchInput: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
     paddingHorizontal: 10,
-    paddingVertical: 8,
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
     fontSize: 16,
-    width: '100%',
+  },
+  optionsIcon: {
+    width: 20,
+    height: 20,
+    marginLeft: 10,
   },
   cardsContainer: {
     width: '100%',
@@ -102,7 +114,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 300,
-    height: 60,
+    height: 70,
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#ddd',
