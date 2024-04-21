@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Button } from 'react-native-elements';
+import { useRouter } from 'expo-router';
+
+
 
 const Card = ({ onPress, selected, onRadioClick, criteria, radioButtonContainerStyle }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.card}>
-      {/* Content of the card */}
+    <TouchableOpacity onPress={onPress} style={[styles.card, selected && styles.highlightedCard]}>
       <View style={styles.content}>
         <View style={styles.iconBox}>
           <Image
@@ -25,6 +27,7 @@ const Card = ({ onPress, selected, onRadioClick, criteria, radioButtonContainerS
 };
 
 const OnboardingScreen = () => {
+  const router = useRouter();
   const [selectedCard, setSelectedCard] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
 
@@ -37,9 +40,9 @@ const OnboardingScreen = () => {
   };
 
   const handleSearch = () => {
-    // Perform search based on selected card's criteria
-    if (selectedCard !== null) {
-      // Example: Perform a search based on the selected card's criteria
+    if (selectedCard === 1) {
+      router.push('/Search');
+    } else {
       setSearchResults([`Search results for criteria ${selectedCard}`]);
     }
   };
@@ -77,13 +80,15 @@ const OnboardingScreen = () => {
           radioButtonContainerStyle={styles.radioButtonContainer4}
         />
       </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Search"
-          buttonStyle={styles.button}
-          onPress={handleSearch}
-        />
-      </View>
+      {selectedCard !== null && (
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Search"
+            buttonStyle={styles.button}
+            onPress={handleSearch}
+          />
+        </View>
+      )}
       <View style={styles.searchResults}>
         {searchResults.map((result, index) => (
           <Text key={index}>{result}</Text>
@@ -94,6 +99,8 @@ const OnboardingScreen = () => {
 };
 
 export default OnboardingScreen;
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -185,7 +192,6 @@ const styles = StyleSheet.create({
   searchResults: {
     marginTop: 20,
   },
-
   questionText: {
     fontSize: 30,
     fontWeight: 'bold',
@@ -193,5 +199,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 90,
     alignSelf: 'center', // Center the question text horizontally
+  },
+  highlightedCard: {
+    backgroundColor: '#f0f0f0', // Highlighted background color
   },
 });
