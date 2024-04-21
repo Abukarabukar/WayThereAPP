@@ -5,22 +5,22 @@ import { useRouter } from 'expo-router';
 const Card = ({ onPress, selected, criteria }) => {
   const getImageSource = () => {
     switch(criteria) {
-      case "1. Available Rides":
+      case "1. Share ride":
+        return require('../assets/car.png');
+      case "2. Pricing details":
+        return require('../assets/price.png');
+      case "3. Route Visualization":
         return require('../assets/map.png');
-      case "2. Driver":
-        return require('../assets/car.png');
-      case "3. Price Details":
+      case "4. Driver-assenger chat":
+        return require('../assets/chat.png');
+      case "5. Specific route search":
+        return require('../assets/route.png');
+      case "6. Driver information":
         return require('../assets/person.png');
-      case "4. Chat Feature":
-        return require('../assets/car.png');
-      case "5. Traffic Info":
-        return require('../assets/car.png');
-      case "6. Weather Conditions":
-        return require('../assets/car.png');
-      case "7. Favorite Routes":
-        return require('../assets/car.png');
-      case "8. Recent Searches":
-        return require('../assets/car.png');
+      case "7. Payment details":
+        return require('../assets/payment.png');
+      case "8. Driver's location":
+        return require('../assets/driverlocation.png');
       default:
         return require('../assets/dollar-sign.png');
     }
@@ -61,7 +61,7 @@ const Search = () => {
       </View>
       <Text style={styles.questionText}>Available Rides</Text>
       <View style={styles.cardsContainer}>
-        {["1. Available Rides", "2. Driver", "3. Price Details", "4. Chat Feature", "5. Traffic Info", "6. Weather Conditions", "7. Favorite Routes", "8. Recent Searches"].map((criteria, index) => (
+      {["1. Share ride", "2. Pricing details", "3. Route Visualization", "4. Driver-assenger chat", "5. Specific route search", "6. Driver information", "7. Payment details", "8. Driver's location"].map((criteria, index) => (
           <Card
             key={index}
             onPress={() => handleCardClick(index + 1)}
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 300,
-    height: 70,
+    height: 60,
     backgroundColor: '#ffffff',
     borderWidth: 1,
     borderColor: '#ddd',
