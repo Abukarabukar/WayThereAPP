@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Button } from 'react-native-elements';
+import { useRouter } from 'expo-router';
+import { Image } from 'react-native';
 
 const OnboardingScreen = () => {
+  const router = useRouter();
+
   const [selectedCard, setSelectedCard] = useState(null);
 
   const handleSearchBarPress = () => {
@@ -10,15 +14,21 @@ const OnboardingScreen = () => {
   };
 
   const handleSearch = () => {
-     if (selectedCard === 1) {
-      router.push('/Search');
-    } else {
-      setSearchResults([`Search results for criteria ${selectedCard}`]);
-    }
+    router.push('/Search');
   };
 
   return (
+    
     <View style={styles.container}>
+     <View style={[styles.searchBox, { backgroundColor: '#85d8ea', width: 500, height: 250, marginBottom: 30 }]}>
+     <Image source={require('../assets/car.png')} style={styles.searchIcon} />
+      <Text style={styles.imageText}>WayThere</Text> 
+      <Text style={styles.imageText1}>Join today to unlock</Text> 
+      <Text style={styles.imageText2}>100+ travels everyday!</Text> 
+
+
+</View>
+
       <View style={styles.searchBoxContainer}>
         <TouchableOpacity onPress={handleSearchBarPress}>
           <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
@@ -34,14 +44,17 @@ const OnboardingScreen = () => {
 
         <TouchableOpacity onPress={handleSearchBarPress}>
           <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
-          <TextInput
-  secureTextEntry={true}
-  style={styles.searchInput}
-  placeholder="Password"
-  onChangeText={(text) => console.log(text)}
-/>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.searchInput}
+              placeholder="Password"
+              onChangeText={(text) => console.log(text)}
+            />
           </View>
         </TouchableOpacity>
+
+        {/* Your red empty box */}
+       
 
         <TouchableOpacity onPress={handleSearchBarPress}>
           <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
@@ -75,14 +88,11 @@ const OnboardingScreen = () => {
 
         {/* Search button */}
         <TouchableOpacity onPress={handleSearch}>
-         
-            <Button
-              title="Sign Up"
-              buttonStyle={styles.button}
-              onPress={handleSearch}
-            />
-         
-          
+          <Button
+            title="Sign Up"
+            buttonStyle={styles.button}
+            onPress={handleSearch}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -108,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: 327,
-    height: 50,
+    height: 60,
     backgroundColor: '#ffffff',
     borderRadius: 12,
     borderWidth: 1,
@@ -131,7 +141,37 @@ const styles = StyleSheet.create({
     borderWidth: 0, // Remove border
     borderRadius: 25, // Maintain the same border radius as search boxes
   },
-  searchButton: {
-    justifyContent: 'center', // Center the button vertically within the search box
+  searchIcon: {
+    width: 180, // Adjust according to your image size
+    height: 100, // Adjust according to your image size
+    marginBottom: 60, // Adjust the margin between the image and the bottom of the red box
+    marginRight: 100,
+    left: 130,
+    resizeMode: 'contain',
+  },
+
+  imageText: {
+    textAlign: 'center', // Align text to the center
+    fontSize: 25, // Adjust the font size as needed
+    marginTop: -50,
+    fontWeight: 'bold',
+    left: -105,
+    marginBottom: -100,
+  },
+
+  imageText1: {
+    textAlign: 'center', // Align text to the center
+    fontSize: 13, // Adjust the font size as needed
+    marginTop: -50,
+    left: -220,
+    marginBottom: -170,
+  },
+  
+  imageText2: {
+    textAlign: 'center', // Align text to the center
+    fontSize: 13, // Adjust the font size as needed
+    marginTop: -50,
+    left: -342,
+    marginBottom: -220,
   },
 });
