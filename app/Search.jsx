@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import BottomTabNavigator from './BottomTabNavigator';
+import { useNavigation } from '@react-navigation/native';
 
 const houseIcon = require('../assets/house.png');
 const roadIcon = require('../assets/road.png');
@@ -10,12 +11,13 @@ const chatIcon = require('../assets/chat.png');
 const chat2Icon = require('../assets/chat2.png');
 
 const NavigatorBar = () => {
+  const navigation = useNavigation();
   // Add navigation logic here
   return (
     <View style={styles.navigatorBar}>
-      <TouchableOpacity onPress={() => {/* Navigate to screen 1 */}} style={styles.navItem}>
-        <Image source={houseIcon} style={styles.navIcon} />
-      </TouchableOpacity>
+     <TouchableOpacity onPress={() => navigation.navigate('index')} style={styles.navItem}>
+  <Image source={houseIcon} style={styles.navIcon} />
+</TouchableOpacity>
       <TouchableOpacity onPress={() => {/* Navigate to screen 2 */}} style={styles.navItem}>
         <Image source={roadIcon} style={styles.navIcon} />
       </TouchableOpacity>
