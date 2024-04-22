@@ -31,7 +31,7 @@ const RootLayout = ({ primaryImage, text, text1 }) => {
         <Text style={styles.text}>{text}</Text>
      
       {/* Additional static text */}
-      <Text style={styles.additionalText}>Explore 1000+ routes</Text>
+      <Text style={styles.additionalText}>Drive & Save Money</Text>
     </View>
   );
 };
