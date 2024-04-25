@@ -17,7 +17,7 @@ const RootLayout = ({ primaryImage, text, text1 }) => {
       {/* Container view for image and icon */}
       <View style={styles.imageContainer}>
         {/* Primary Image (could be from a URI or local) */}
-        <TouchableOpacity onPress={() => navigation.navigate('Onboarding')}>
+        <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
         <Image source={require('../assets/car.png')} style={styles.image} resizeMode="contain" />
         </TouchableOpacity>
         {/* Local Secondary Image - Set explicit dimensions for icon size */}
