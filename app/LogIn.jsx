@@ -24,7 +24,10 @@ const LogIn = () => {
       }
     }
   };
-
+  const [isChecked, setIsChecked] = useState(false); // State for checkbox
+  const handleCheckboxClick = () => {
+    setIsChecked(!isChecked); // Toggle the checkbox state
+  };
   return (
     <ImageBackground source={require('../assets/roadBackground.png')} style={styles.backgroundImage}>
       <View style={styles.container}>
@@ -55,6 +58,25 @@ const LogIn = () => {
   <Text style={styles.joinUsText}>Join us now</Text>
 </TouchableOpacity>
         </View>
+
+        <TouchableOpacity onPress={handleCheckboxClick}>
+            <View style={{top: -70, left: -100, flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{
+                width: 20,
+                height: 20,
+                borderWidth: 1,
+                borderRadius: 5,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 10,
+                backgroundColor: isChecked ? 'blue' : 'white',
+              }}>
+                {isChecked && <Text style={{ color: 'white'}}>✓</Text>}
+              </View>
+              <Text style={{ color: 'white'}}>Remember me</Text>
+            </View>
+          </TouchableOpacity>
+
       </View>
     </ImageBackground>
   );
@@ -95,6 +117,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
     marginBottom: 20,
+    left: 105,
+    top: 15,
   },
   newHereText: {
     color: 'white',
