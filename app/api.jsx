@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.3.37:3003'; // Removed trailing slash
+const BASE_URL = 'http://192.168.3.37:3004'; // Removed trailing slash
 
 export const registerUser = async (username, email, password) => {
   try {

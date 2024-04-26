@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, ImageBackground, Text } from 'react-native';
+import { StyleSheet, View, TextInput, ImageBackground, TouchableOpacity, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { loginUser } from './api.jsx'; // Assuming api.js is in the same directory
@@ -51,7 +51,9 @@ const LogIn = () => {
           {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
           <Text style={styles.forgotPasswordText}>Reset Password</Text>
           <Text style={styles.newHereText}>New here?</Text>
-          <Text style={styles.joinUsText}>Join us now</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+  <Text style={styles.joinUsText}>Join us now</Text>
+</TouchableOpacity>
         </View>
       </View>
     </ImageBackground>
@@ -97,11 +99,15 @@ const styles = StyleSheet.create({
   newHereText: {
     color: 'white',
     fontSize: 14,
+    left: 30,
+    top: 19,
+    
   },
   joinUsText: {
     color: 'white',
     fontSize: 14,
     fontWeight: 'bold',
+    left: 102,
   },
   backgroundImage: {
     flex: 1,
