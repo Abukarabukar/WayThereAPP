@@ -1,92 +1,58 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { StyleSheet, View, TextInput, ImageBackground, Text } from 'react-native';
 import { Button } from 'react-native-elements';
-import { useRouter } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
-import { Text } from 'react-native';
+import { loginUser } from './api.jsx'; // Assuming api.js is in the same directory
 
 const LogIn = () => {
-  const router = useRouter();
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // State to hold error messages
 
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [isChecked, setIsChecked] = useState(false); // State for checkbox
-
-  const handleSearchBarPress = () => {
-    // Logic to execute when search bar is pressed
-  };
-
-  const handleSearch = () => {
-    router.push('/Search'); // Navigate to the Search screen
-  };
-
-  const handleCheckboxClick = () => {
-    setIsChecked(!isChecked); // Toggle the checkbox state
+  const handleLogin = async () => {
+    try {
+      const response = await loginUser(username, password);  // API call
+      console.log('Login successful:', response); // Keep this for debugging only
+      navigation.navigate('Search'); // Assuming 'Search' is the correct screen after login
+    } catch (error) {
+      // Handle errors in a user-friendly way
+      if (error.response && error.response.status === 401) {
+        setErrorMessage('Incorrect username or password. Please try again.'); // Custom error message for 401 errors
+      } else {
+        setErrorMessage('Unable to login. Please check your network connection and try again.'); // Generic error message for other errors
+      }
+    }
   };
 
   return (
     <ImageBackground source={require('../assets/roadBackground.png')} style={styles.backgroundImage}>
       <View style={styles.container}>
         <Text style={styles.welcomeText}>Welcome back!</Text>
-
-        <View style={styles.searchBoxContainer}>
-          {/* Email TextInput */}
-          <TouchableOpacity onPress={handleSearchBarPress}>
-            <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Email"
-                onChangeText={(text) => console.log(text)}
-              />
-            </View>
-          </TouchableOpacity>
-
-          {/* Password TextInput */}
-          <TouchableOpacity onPress={handleSearchBarPress}>
-            <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.searchInput}
-                placeholder="Password"
-                onChangeText={(text) => console.log(text)}
-              />
-            </View>
-          </TouchableOpacity>
-
-        
-
-          {/* Search button */}
-          <TouchableOpacity onPress={handleSearch}>
-            <Button
-              title="Log In"
-              buttonStyle={styles.button}
-              onPress={handleSearch}
-            />
-          </TouchableOpacity>
-          <Text style={styles.restPasswordText}>Reset Password</Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            onChangeText={setUsername}
+            value={username}
+          />
+          <TextInput
+            secureTextEntry={true}
+            style={styles.input}
+            placeholder="Password"
+            onChangeText={setPassword}
+            value={password}
+          />
+          <Button
+            title="Log In"
+            buttonStyle={styles.button}
+            onPress={handleLogin}
+          />
+          {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+          <Text style={styles.forgotPasswordText}>Reset Password</Text>
           <Text style={styles.newHereText}>New here?</Text>
-          <Text style={[styles.joinUsText, {  fontWeight: 'bold', fontSize: 16,  left: 110,  }]} onPress={() => navigation.navigate('SignUp')}>Join us now</Text>
+          <Text style={styles.joinUsText}>Join us now</Text>
         </View>
-
-          {/* Remember Me Checkbox */}
-          <TouchableOpacity onPress={handleCheckboxClick}>
-            <View style={{top: -90, left: -100, flexDirection: 'row', alignItems: 'center' }}>
-              <View style={{
-                width: 20,
-                height: 20,
-                borderWidth: 1,
-                borderRadius: 5,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 10,
-                backgroundColor: isChecked ? 'blue' : 'white',
-              }}>
-                {isChecked && <Text style={{ color: 'white'}}>✓</Text>}
-              </View>
-              <Text style={{ color: 'white'}}>Remember me</Text>
-            </View>
-          </TouchableOpacity>
-          
       </View>
     </ImageBackground>
   );
@@ -100,80 +66,51 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  searchBoxContainer: {
+  inputContainer: {
     alignItems: 'center',
-    marginTop: 10,
-    marginRight: 20,
-    marginBottom: 50,
-    marginLeft: 20,
+    marginTop: 20,
   },
-  searchBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 327,
+  input: {
+    width: 300,
     height: 50,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'white',
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#f0f0f0',
     paddingHorizontal: 20,
     marginBottom: 20,
   },
-  selectedSearchBox: {
-    borderColor: 'blue',
-    backgroundColor: '#ffffff',
+  button: {
+    backgroundColor: '#446879',
+    width: 300,
+    height: 50,
+    borderRadius: 25,
   },
-  searchInput: {
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 20,
+  },
+  forgotPasswordText: {
+    color: 'white',
+    fontSize: 14,
+    marginBottom: 20,
+  },
+  newHereText: {
+    color: 'white',
+    fontSize: 14,
+  },
+  joinUsText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  backgroundImage: {
     flex: 1,
-    fontSize: 16,
+    resizeMode: 'cover',
   },
   welcomeText: {
     color: 'white',
     fontSize: 30,
     fontWeight: 'bold',
-    top: -20,
-  },
-  restPasswordText: {
-    color: 'white',
-    fontSize: 14,
-    top: 15,
-    left: 110,
-  },
-  joinUsText: {
-    color: 'white',
-    fontSize: 20,
-    top: 15,
-    left: 120,
-    fontWeight: 'bold',
-  },
-  newHereText: {
-    color: 'white',
-    fontSize: 14,
-    top: 34,
-    left: 33,
-  },
-  rememberMeText: {
-    color: 'white',
-    fontSize: 14,
-    top: -40,
-    left: -120,
-  },
-  joinUsText: {
-    color: 'white',
-    fontSize: 14,
-    top: 15,
-    left: 105,
-   
-  },
-  button: {
-    backgroundColor: '#446879',
-    width: 320,
-    height: 50,
-    borderWidth: 0,
-    borderRadius: 25,
-  },
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover', // or 'stretch' or 'contain'
+    marginBottom: 20,
   },
 });
