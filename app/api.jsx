@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://192.168.3.37:3004'; // Removed trailing slash
+const BASE_URL = 'http://192.168.3.37:8080/api'; // Removed trailing slash
 
 export const registerUser = async (username, email, password) => {
   try {
@@ -18,7 +18,7 @@ export const registerUser = async (username, email, password) => {
 
 export const loginUser = async (username, password) => {
   try {
-    const response = await axios.post(`${BASE_URL}/login`, {
+    const response = await axios.post(`${BASE_URL}/authenticate`, {
       username,
       password
     });
