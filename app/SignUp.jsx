@@ -7,14 +7,21 @@ import { Image } from 'react-native';
 const SignupScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // State for password confirmation
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
   const handleSignup = async () => {
-    if (!email || !password || !username) {
+    if (!email || !password || !username || !confirmPassword) {
       setError('Please fill in all fields');
       return;
     }
+
+    if (password !== confirmPassword) { // Check if passwords match
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:8080/api/register', {
         email,
@@ -48,6 +55,17 @@ const SignupScreen = () => {
           />
         </View>
 
+      
+
+        <View style={[styles.searchBox, {marginBottom: 20}]}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Username"
+            onChangeText={(text) => setUsername(text)}
+            value={username}
+          />
+        </View>
+
         <View style={[styles.searchBox, {marginBottom: 20}]}>
           <TextInput
             secureTextEntry={true}
@@ -60,13 +78,13 @@ const SignupScreen = () => {
 
         <View style={[styles.searchBox, {marginBottom: 20}]}>
           <TextInput
+            secureTextEntry={true}
             style={styles.searchInput}
-            placeholder="Username"
-            onChangeText={(text) => setUsername(text)}
-            value={username}
+            placeholder="Confirm Password" // Added confirmation input
+            onChangeText={(text) => setConfirmPassword(text)}
+            value={confirmPassword}
           />
         </View>
-
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <TouchableOpacity onPress={handleSignup}>
@@ -82,6 +100,9 @@ const SignupScreen = () => {
 };
 
 export default SignupScreen;
+
+// Styles remain unchanged
+
 
 const styles = StyleSheet.create({
   container: {
