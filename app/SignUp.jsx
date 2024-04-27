@@ -1,60 +1,69 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Button } from 'react-native-elements';
-import { useRouter } from 'expo-router';
+import axios from 'axios';
 import { Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 const SignupScreen = () => {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
-  const [selectedCard, setSelectedCard] = useState(null); // Add this line
 
-
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!email || !password || !username) {
       setError('Please fill in all fields');
-    } else {
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:8080/api/register', {
+        email,
+        password,
+        username
+      });
+      console.log('Sign up successful', response.data);
       setError('');
-      console.log('Sign up successful');
+      // Optionally redirect user or clear form
+    } catch (error) {
+      setError('Failed to sign up. Please try again.');
+      console.error('Sign up error:', error.response || error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <View style={[styles.searchBox, { backgroundColor: '#85d8ea', width: 500, height: 250, marginBottom: 30 }]}>
+       <View style={[styles.searchBox, { backgroundColor: '#85d8ea', width: 500, height: 250, marginBottom: 30 }]}>
         <Image source={require('../assets/car.png')} style={styles.searchIcon} />
         <Text style={styles.imageText}>WayThere</Text>
         <Text style={styles.imageText1}>Join today to unlock</Text>
         <Text style={styles.imageText2}>100+ travels everyday!</Text>
       </View>
-
       <View style={styles.searchBoxContainer}>
-        <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
+        <View style={[styles.searchBox, {marginBottom: 20}]}>
           <TextInput
             style={styles.searchInput}
             placeholder="Email"
             onChangeText={(text) => setEmail(text)}
+            value={email}
           />
         </View>
 
-        <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
+        <View style={[styles.searchBox, {marginBottom: 20}]}>
           <TextInput
             secureTextEntry={true}
             style={styles.searchInput}
             placeholder="Password"
             onChangeText={(text) => setPassword(text)}
+            value={password}
           />
         </View>
 
-        <View style={[styles.searchBox, selectedCard === 2 && styles.selectedSearchBox]}>
+        <View style={[styles.searchBox, {marginBottom: 20}]}>
           <TextInput
             style={styles.searchInput}
             placeholder="Username"
             onChangeText={(text) => setUsername(text)}
+            value={username}
           />
         </View>
 
