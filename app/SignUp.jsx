@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
-import { Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 const SignupScreen = () => {
+  const navigation = useNavigation(); // Initialize navigation
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // State for password confirmation
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
   const [error, setError] = useState('');
 
@@ -16,30 +18,34 @@ const SignupScreen = () => {
       setError('Please fill in all fields');
       return;
     }
-
-    if (password !== confirmPassword) { // Check if passwords match
+  
+    if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-
+  
     try {
-      const response = await axios.post('http://localhost:8080/api/register', {
+      const response = await axios.post('http://192.168.3.37:8080/api/register', {
         email,
         password,
-        username
+        login: username  // Change the key to 'login'
       });
+  
       console.log('Sign up successful', response.data);
+  
       setError('');
-      // Optionally redirect user or clear form
+
+      // Navigate to the login screen after successful sign up
+      navigation.navigate('LogIn');
     } catch (error) {
       setError('Failed to sign up. Please try again.');
-      console.error('Sign up error:', error.response || error.message);
+      console.error('Sign up error:', error);
     }
   };
 
   return (
     <View style={styles.container}>
-       <View style={[styles.searchBox, { backgroundColor: '#85d8ea', width: 500, height: 250, marginBottom: 30 }]}>
+      <View style={[styles.searchBox, { backgroundColor: '#85d8ea', width: 500, height: 250, marginBottom: 30 }]}>
         <Image source={require('../assets/car.png')} style={styles.searchIcon} />
         <Text style={styles.imageText}>WayThere</Text>
         <Text style={styles.imageText1}>Join today to unlock</Text>
@@ -50,18 +56,16 @@ const SignupScreen = () => {
           <TextInput
             style={styles.searchInput}
             placeholder="Email"
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={setEmail}
             value={email}
           />
         </View>
-
-      
 
         <View style={[styles.searchBox, {marginBottom: 20}]}>
           <TextInput
             style={styles.searchInput}
             placeholder="Username"
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={setUsername}
             value={username}
           />
         </View>
@@ -71,7 +75,7 @@ const SignupScreen = () => {
             secureTextEntry={true}
             style={styles.searchInput}
             placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={setPassword}
             value={password}
           />
         </View>
@@ -80,8 +84,8 @@ const SignupScreen = () => {
           <TextInput
             secureTextEntry={true}
             style={styles.searchInput}
-            placeholder="Confirm Password" // Added confirmation input
-            onChangeText={(text) => setConfirmPassword(text)}
+            placeholder="Confirm Password"
+            onChangeText={setConfirmPassword}
             value={confirmPassword}
           />
         </View>
@@ -100,9 +104,6 @@ const SignupScreen = () => {
 };
 
 export default SignupScreen;
-
-// Styles remain unchanged
-
 
 const styles = StyleSheet.create({
   container: {
@@ -128,10 +129,6 @@ const styles = StyleSheet.create({
     borderColor: '#f0f0f0',
     paddingHorizontal: 20,
     marginBottom: 20,
-  },
-  selectedSearchBox: {
-    borderColor: 'blue',
-    backgroundColor: '#ffffff',
   },
   searchInput: {
     flex: 1,
